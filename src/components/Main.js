@@ -21,40 +21,22 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class Main extends PureComponent {
-  state = {
-    interval: 'day',  
-    outputsize: 'compact',
-    symbol: 'aapl',
-    apikey: '1BI6YDAWRHP1U8OI'
-  }
-
-  onCompanyChange(e) {
-    this.setState({
-      symbol: e.target.value
-    })
-  }
-
-  onChangeInterval(e) {
-    this.setState({
-      interval: e.target.value
-    })
-  }
-
+  
   onClickChange() {
     this.props.getDataQuery({
-      symbol: this.state.symbol, 
-      interval: this.state.interval,
-      outputsize: this.state.outputsize,
-      apikey: this.state.apikey,
+      symbol: this.props.form.header.values.symbol,
+      interval: this.props.form.header.values.interval,
+      outputsize: this.props.form.header.values.outputsize,
+      apikey: this.props.form.header.values.apikey,
     })
   }
 
   componentWillMount() {
     this.props.getDataQuery({
-      symbol: this.state.symbol, 
-      interval: this.state.interval,
-      outputsize: this.state.outputsize,
-      apikey: this.state.apikey,
+      symbol: this.props.form.header.values.symbol,
+      interval: this.props.form.header.values.interval,
+      outputsize: this.props.form.header.values.outputsize,
+      apikey: this.props.form.header.values.apikey,
     })
   }
     
@@ -70,6 +52,7 @@ class Main extends PureComponent {
           onChangeInterval = {(e) => this.onChangeInterval(e)}
           onCompanyChange = {(e) => this.onCompanyChange(e)}
           onClickChange ={() => this.onClickChange()}
+          val = {this.props.form.header.values}
         />
         <div style = {{width: '70%', display: 'inline-block', marginTop: '40px'}}>
           {!Object.keys(this.props.data).includes('dataError')?

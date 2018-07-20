@@ -52,7 +52,43 @@ const Button = ({ onClick, style, name }) => {
     )
 }
 
-export { Select, Input, Button };
+
+const Symbol = ({style, name, placeholder, type}) => {
+    return (
+        <div>
+            <Field
+                name={name}
+                component='input'
+                type={type}
+                placeholder={placeholder}
+                style = {{ ...style}}
+            />
+        </div>
+    );
+};
+
+const Interval = ({ name, values, style }) => {
+    const options = () => {
+        const res = values.map((opt, i) => {
+            return <option key={i} value={opt}>{opt}</option>
+        })
+        return res
+    }
+    return (
+        <div style = {wrapper}>
+            <Field 
+                name={name} 
+                component='select'
+                style = {{...dropSelect, ...style}}
+            >
+                {options()}
+            </Field>
+        </div>
+    )
+};
+
+
+export { Select, Input, Button, Symbol, Interval };
 
 const common = {...CONST.HEIGHT, ...CONST.TEXT, 
     ...CONST.BACK, ...CONST.BORDER}
@@ -82,4 +118,7 @@ const input = {
     backgroundColor: '#f3f3f3ab',
     width: 100,
     minWidth: 100,
+}
+const sumbolStyle = {
+
 }

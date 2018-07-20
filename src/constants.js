@@ -33,9 +33,10 @@ const BREESE = '#81d4dc'
 const YELLOW = '#ead960'
 const PURPLE = '#281b5dab'
 const APPLY = '#1d7133d9'
-const GREY = '#281b5dab'
+const GREY = '#84848463'
+const ORANGE = '#ffa500a6'
 
-export { BREESE, YELLOW, PURPLE, APPLY, GREY }
+export { BREESE, YELLOW, PURPLE, APPLY, GREY, ORANGE }
 
 const initialState = {
     query: { 
@@ -55,12 +56,20 @@ const initialState = {
                 valueCondition: 50,
                 risk: 2,
                 stopLoss: 100,
-                passAfterLoss: 5,
+                passAfterLoss: 2,
                 exitCause: '%',
                 exitAmount: 2,
                 rsiStep: 20,
                 emaStep: 10,
                 results: {},
+            }
+        },
+        header: {
+            values: {
+                symbol: "aapl",
+                interval: "day",
+                outputsize: "compact",
+                apikey: "1BI6YDAWRHP1U8OI",
             }
         }
     }

@@ -1,34 +1,32 @@
 import React from 'react';
+import { reduxForm } from 'redux-form'
 
 import Button from '../parts/Button'
+import { Symbol, Interval } from '../parts/FieldParts'
 
 import { TEXT } from "../../constants";
 import { APPLY, YELLOW } from "../../constants";
+import { initialState } from '../../constants'
 
 const header = (props) => {
+
     return (
         <div style = {headerStyle}>
             <div style = {{...logoInstrument}}>
                 {props.companyName ? props.companyName.toUpperCase() : null}
             </div>
-            <input
+            <Symbol
+                value={props.val.symbol}
+                name='symbol'
                 style={inputCompany}
-                onChange={props.onCompanyChange}
                 placeholder='Change instrument'
+                style = {inputCompany}
             />
-            <select 
-                value={props.selectedValue}
-                onChange={props.onChangeInterval}
-                style = {{ ...select}}>
-                <option value='1min'>1min</option>
-                <option value='5min'>5min</option>
-                <option value='15min'>15min</option>
-                <option value='30min'>30min</option>
-                <option value='60min'>60min</option>
-                <option value='day'>day</option>
-                <option value='week'>week</option>
-                <option value='month'>month</option>
-            </select>
+            <Interval
+                values = {['1min','5min','10min','15min','30min','60min', 'day', 'week', 'month']}
+                name = 'interval'
+                style = {select}
+            />
             <Button 
                 onClick = {(e) => props.onClickChange(e)}
                 name = 'change'
@@ -65,6 +63,7 @@ const inputCompany = {
     ...TEXT,
     border: 'none',
     paddingLeft: '10px',
+    height: '40px',
     backgroundColor: YELLOW,
     flexGrow: 3,
 }
@@ -83,4 +82,9 @@ const button = {
 
 }
 
-export default header
+let headerForm = reduxForm({
+    form: 'header',
+    initialState: initialState.form.header.val
+})(header)
+
+export default headerForm

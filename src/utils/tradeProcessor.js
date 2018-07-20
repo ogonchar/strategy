@@ -63,20 +63,20 @@ export function tradeProcessor(data, { indicator, capital = 2000, valueCondition
                             deals.push(`On ${i} close with loss : ${loss}`)
                             break
                         }
+                        //Calculating current amount of profit
+                        let profitBuy = ((data[y].high + data[y].low) / 2 - pose.price) * pose.qty 
+                        let profitSell = (pose.price - (data[i].high + data[i].low) / 2) * pose.qty
+                        
+                        // chacking  if profit is enough for exit
+                        let profitEnoughBuy = (exitCause === '%' && profitBuy > exitAmount && buy)
+                        let profitEnoughSell =  (exitCause === '%' && profitSell > exitAmount && sell)
+                
+                        if (pose.qty !== 0 && (profitEnoughBuy || profitEnoughSell)) {
+                            profitEnoughBuy ? profit += profitBuy : profit += profitSell
+                            pose.qty = 0
+                            deals.push(`On ${y} close pose on price ${data[y].close} with profit : ${round(profit)}`)
+                        }
                     }
-                }
-                //Calculating current amount of profit
-                let profitBuy = ((data[i].high + data[i].low) / 2 - pose.price) * pose.qty 
-                let profitSell = (pose.price - (data[i].high + data[i].low) / 2) * pose.qty
-        
-                // chacking  if profit is enough for exit
-                let profitEnoughBuy = (exitCause === '%' && profitBuy > exitAmount && buy)
-                let profitEnoughSell =  (exitCause === '%' && profitSell > exitAmount && sell)
-        
-                if (pose.qty !== 0 && (profitEnoughBuy || profitEnoughSell)) {
-                    profitEnoughBuy ? profit += profitBuy : profit += profitSell
-                    pose.qty = 0
-                    deals.push(`On ${i} close pose on price ${data[i].close} with profit : ${round(profit)}`)
                 }
             })
 

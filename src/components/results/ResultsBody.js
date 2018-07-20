@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'react-redux'
+import FontAwesome from 'react-fontawesome'
 
 import { BORDER } from "../../constants";
-import { GREY } from "../../constants";
+import { GREY, PURPLE, ORANGE } from "../../constants";
 import {toggleDeals} from '../../actions'
 
 const mapStateToProps = (state) => ({
@@ -19,17 +20,20 @@ const ResultsBody = ({toggleDeals, loss, profit, deals, result, showDeals}) => {
                 <h3>Results</h3>
                 <div 
                     onClick = {toggleDeals}
-                    style = {dealsStyle}
-                >Deals</div>
-                {showDeals && deals?
-                    deals.map((d , i) => {
-                        return( 
-                            <div key={i}>{d}</div>
-                        ) 
-                    })
-                    :
-                    null
-                }
+                    style = {deals? dealsToggle : {}}
+                >Deals <FontAwesome name={deals?'arrow-down' : ''}/></div>
+                <div style = {dealsStyle}>
+                    {showDeals && deals?
+                        deals.map((d , i) => {
+                            return( 
+                                <div key={i} style={dealsStyle}>{d}</div>
+                            ) 
+                        }) 
+                        :
+                        null
+                    }
+                </div>
+                <p>Deals: {deals? deals.length : null}</p>
                 <p>Loss: {loss}</p>
                 <p>Profit: {profit}</p>
                 <p>Result: {result}</p>
@@ -39,15 +43,21 @@ const ResultsBody = ({toggleDeals, loss, profit, deals, result, showDeals}) => {
 
 const div = {
     ...BORDER,
-    backgroundColor: GREY,
+    backgroundColor: PURPLE,
     padding: 10,
     color: 'white',
     display: 'inline-flex',
     flexDirection: 'column',
     width: '100%',
+} 
+const dealsToggle = {
+    backgroundColor: ORANGE, 
+    cursor: 'pointer',
 }
 const dealsStyle = {
-    backgroundColor: GREY,
+    margin: '5px',
+    borderBottom: '1px solid ' + GREY,
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsBody);
