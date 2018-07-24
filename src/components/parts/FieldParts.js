@@ -55,13 +55,13 @@ const Button = ({ onClick, style, name }) => {
 
 const Symbol = ({style, name, placeholder, type}) => {
     return (
-        <div>
+        <div style = {style}>
             <Field
                 name={name}
                 component='input'
                 type={type}
                 placeholder={placeholder}
-                style = {{ ...style}}
+                style = {{ ...style, ...symbolStyle}}
             />
         </div>
     );
@@ -119,6 +119,6 @@ const input = {
     width: 100,
     minWidth: 100,
 }
-const sumbolStyle = {
+const symbolStyle = {
 
 }

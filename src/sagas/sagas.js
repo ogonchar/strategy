@@ -8,7 +8,7 @@ function* fetchData(action) {
         action.query.dataQuery.apikey);
         yield put({type: "DATA_FETCH_SUCCEEDED", data});
     } catch (e) {
-       yield put({type: "DATA_FETCH_FAILED", message: e.message});
+       yield put({type: "DATA_FETCH_FAILED", message: e});
     }
  }
 

@@ -26,7 +26,6 @@ export function getData(symbol, interval, outputsize, apikey) {
   //construct request link based on received parameters
   const link = `${LINK}function=${func}&symbol=${symbol}` +
   `&interval=${interval}&outputsize=${outputsize}&apikey=${apikey}`
-
   
   const promiseData = fetch(link)
     .then(function(response) {

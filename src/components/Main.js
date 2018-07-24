@@ -41,9 +41,6 @@ class Main extends PureComponent {
   }
     
   render() {
-    if (this.props.data.length === 0) {
-      return <div>Loading...</div>
-    }
 
     return (
       <div>
@@ -55,7 +52,10 @@ class Main extends PureComponent {
           val = {this.props.form.header.values}
         />
         <div style = {{width: '70%', display: 'inline-block', marginTop: '40px'}}>
-          {!Object.keys(this.props.data).includes('dataError')?
+          {Object.keys(this.props.data).includes('dataError')?
+           <h2>Api do not response to query, please wait</h2> : null
+          }
+          {(this.props.data.data)?
             <RSIChart
               data={this.props.data.data} 
               onClick={() => this.onClickChange()}
@@ -63,7 +63,7 @@ class Main extends PureComponent {
               height ={400}
             />
             :
-            <h2>Api do not response to query</h2>
+            null
           }
         </div>
         <StrategyMaster/>

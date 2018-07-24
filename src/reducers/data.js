@@ -1,5 +1,5 @@
 const data = (state = [], action) => {
-
+    
     switch (action.type) {
         case 'DATA_FETCH_SUCCEEDED':
         return {
@@ -9,7 +9,7 @@ const data = (state = [], action) => {
         case 'DATA_FETCH_FAILED':
         return {
             ...state,
-            dataError: action.dataError
+            dataError: action.message.stack
         }
         default:
         return state

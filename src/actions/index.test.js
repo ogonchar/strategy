@@ -1,7 +1,7 @@
 import {setResults} from './index'
 
 describe('actions', () => {
-  it('should create an action to add a todo', () => {
+  it('Actions should match', () => {
     const results = 'Finish docs'
     const expectedAction = {
       type: 'SET_RESULTS',

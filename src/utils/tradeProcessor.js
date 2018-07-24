@@ -41,7 +41,7 @@ export function tradeProcessor(data, { indicator, capital = 2000, valueCondition
                 // Conditions for trade exacution are done?
                 if (d.close < valueCondition && condition ==='<') lessOrMore = true
                 if (d.close > valueCondition && condition ==='>') lessOrMore = true
-                
+            
                 // If there are no pose and conitions are done and losses are ok 
                 if (pose.qty === 0 && lessOrMore && willTrade) {
 

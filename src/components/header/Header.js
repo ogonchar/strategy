@@ -20,7 +20,6 @@ const header = (props) => {
                 name='symbol'
                 style={inputCompany}
                 placeholder='Change instrument'
-                style = {inputCompany}
             />
             <Interval
                 values = {['1min','5min','10min','15min','30min','60min', 'day', 'week', 'month']}
