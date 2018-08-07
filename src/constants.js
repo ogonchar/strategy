@@ -35,25 +35,18 @@ const PURPLE = '#281b5dab'
 const APPLY = '#1d7133d9'
 const GREY = '#84848463'
 const ORANGE = '#ffa500a6'
+const GREEN = '#44d864e0'
 
-export { BREESE, YELLOW, PURPLE, APPLY, GREY, ORANGE }
+export { BREESE, YELLOW, PURPLE, APPLY, GREY, ORANGE, GREEN }
 
 const initialState = {
-    query: { 
-        query: { 
-            dataQuery: { 
-                symbol: 'aapl', 
-                apikey: '1BI6YDAWRHP1U8OI' 
-            } 
-        } 
-    },
     form: {
         strategy: {
             values: {
                 qty: 10,
                 indicator: 'rsi',
                 condition: '<',
-                valueCondition: 50,
+                valueCondition: 30,
                 risk: 2,
                 stopLoss: 100,
                 passAfterLoss: 2,
@@ -71,11 +64,41 @@ const initialState = {
                 outputsize: "compact",
                 apikey: "1BI6YDAWRHP1U8OI",
             }
+        },
+        login: {
+          values: {
+            userName: '',
+            password: '',
+          }
         }
-    }
+    },
+    header: {
+      show: {
+        login: false
+      },
+      isAuthed: false
+    },
+    
 }
 
 export { initialState }
+
+export const mockStrategy = {
+  val: {
+    qty: 10,
+    indicator: 'rsi',
+    condition: '<',
+    valueCondition: 30,
+    risk: 2,
+    stopLoss: 100,
+    passAfterLoss: 2,
+    exitCause: '%',
+    exitAmount: 2,
+    rsiStep: 20,
+    emaStep: 10,
+    results: {}
+  },
+}
 
 export const mockData = [
       {

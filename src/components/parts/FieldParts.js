@@ -3,8 +3,9 @@ import { Field } from 'redux-form'
 
 import * as CONST from "../../constants";
 
+
 // Dropdown list linked directly to store 
-const Select = ({ name, values }) => {
+const Select = ({ name, values, validate }) => {
     const options = () => {
         const res = values.map((opt, i) => {
             return <option key={i} value={opt}>{opt}</option>
@@ -18,6 +19,7 @@ const Select = ({ name, values }) => {
                 name={name} 
                 component='select'
                 style = {dropSelect}
+                validate = {validate}
             >
                 {options()}
             </Field>
@@ -26,7 +28,7 @@ const Select = ({ name, values }) => {
 };
 
 // Input linked directly to store 
-const Input = ({ name, type, placeholder }) => {
+const Input = ({ name, type, placeholder, validate }) => {
     return (
         <div style = {wrapper}>
             <div style = {styleName}>{name}</div>
@@ -36,10 +38,13 @@ const Input = ({ name, type, placeholder }) => {
                 type={type}
                 placeholder={placeholder}
                 style = {input}
+                validate = {validate}
             />
         </div>
     )
 }
+
+
 
 const Button = ({ onClick, style, name }) => {
     return (
@@ -53,7 +58,7 @@ const Button = ({ onClick, style, name }) => {
 }
 
 
-const Symbol = ({style, name, placeholder, type}) => {
+const Symbol = ({style, name, placeholder, type, validate }) => {
     return (
         <div style = {style}>
             <Field
@@ -62,12 +67,13 @@ const Symbol = ({style, name, placeholder, type}) => {
                 type={type}
                 placeholder={placeholder}
                 style = {{ ...style, ...symbolStyle}}
+                validate = {validate}
             />
         </div>
     );
 };
 
-const Interval = ({ name, values, style }) => {
+const Interval = ({ name, values, style, validate }) => {
     const options = () => {
         const res = values.map((opt, i) => {
             return <option key={i} value={opt}>{opt}</option>
@@ -80,13 +86,13 @@ const Interval = ({ name, values, style }) => {
                 name={name} 
                 component='select'
                 style = {{...dropSelect, ...style}}
+                validate = {validate}
             >
                 {options()}
             </Field>
         </div>
     )
 };
-
 
 export { Select, Input, Button, Symbol, Interval };
 

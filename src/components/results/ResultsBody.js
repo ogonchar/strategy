@@ -1,63 +1,56 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import FontAwesome from 'react-fontawesome'
+import Transition from 'react-addons-css-transition-group'
 
+import './resultsBody.css'
 import { BORDER } from "../../constants";
 import { GREY, PURPLE, ORANGE } from "../../constants";
-import {toggleDeals} from '../../actions'
 
-const mapStateToProps = (state) => ({
-    ...state.results.results,
-    ...state.results
-  });
-const mapDispatchToProps = dispatch => ({
-    toggleDeals: () => {dispatch(toggleDeals())},
-})
 
-const ResultsBody = ({toggleDeals, loss, profit, deals, result, showDeals}) => {
+const ResultsBody = ({toggleDeals, results, showDeals}) => {
     return (
-        <div style = {div}>
+        <Transition transitionName="slide1"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}
+                >
+        {results?
+        
+        <div className='results' key = {'results'}>
                 <h3>Results</h3>
                 <div 
                     onClick = {toggleDeals}
-                    style = {deals? dealsToggle : {}}
-                >Deals <FontAwesome name={deals?'arrow-down' : ''}/></div>
-                <div style = {dealsStyle}>
-                    {showDeals && deals?
-                        deals.map((d , i) => {
+                    style = {results.deals? dealsToggle : {}}
+                >Deals <FontAwesome name={results.deals?'arrow-down' : ''}/>
+                </div>
+                <Transition transitionName="slide1"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={500}
+                >
+                {(showDeals && results.deals) &&<div key = {999}>
+                    {(showDeals && results.deals) &&
+                        results.deals.map((d , i) => {
                             return( 
-                                <div key={i} style={dealsStyle}>{d}</div>
+                                <div key={i} className='dealsStyle'>{d}</div>
                             ) 
                         }) 
-                        :
-                        null
                     }
-                </div>
-                <p>Deals: {deals? deals.length : null}</p>
-                <p>Loss: {loss}</p>
-                <p>Profit: {profit}</p>
-                <p>Result: {result}</p>
+                </div>}
+                </Transition>
+                <p>Deals: {results.deals? results.deals.length : null}</p>
+                <p>Loss: {results.loss}</p>
+                <p>Profit: {results.profit}</p>
+                <p>Result: {results.result}</p>
             </div>
+
+        :
+        null}
+        </Transition>
     );
 };
 
-const div = {
-    ...BORDER,
-    backgroundColor: PURPLE,
-    padding: 10,
-    color: 'white',
-    display: 'inline-flex',
-    flexDirection: 'column',
-    width: '100%',
-} 
 const dealsToggle = {
     backgroundColor: ORANGE, 
     cursor: 'pointer',
 }
-const dealsStyle = {
-    margin: '5px',
-    borderBottom: '1px solid ' + GREY,
 
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsBody);
+export default ResultsBody;

@@ -6,32 +6,30 @@ import { BREESE, APPLY } from "../../constants";
 import { initialState } from '../../constants'
 
 
-const StrategyBuilder = ({val, onClickChange}) => {
+const StrategyBuilder = ({strategy, applyStrategy}) => {
     return (
         <div style={div}>
             <Select
                 name='indicator'
                 values={['rsi', 'ema']}
             />
-            {val.indicator === 'rsi' ?
+            {strategy.indicator === 'rsi' &&
                 (<div>
                     <Select
                         name='condition'
                         values={['>', '<']}
                     />
                     <Input
-                        value={val.valueCondition}
+                        value={strategy.valueCondition}
                         name='valueCondition'
                     />
                     <Input
-                        value={val.rsiStep}
+                        value={strategy.rsiStep}
                         name='rsiStep'
                     />
                 </div>)
-                :
-                null
             }
-            {val.indicator === 'ema' ?
+            {strategy.indicator === 'ema' &&
                 (<div>
                     <Select
                         name='directions'
@@ -39,12 +37,10 @@ const StrategyBuilder = ({val, onClickChange}) => {
                         style={{ width: '100%' }}
                     />
                     <Input
-                        value={val.rsiStep}
+                        value={strategy.rsiStep}
                         name='emaStep'
                     />
                 </div>)
-                :
-                null
             }
             <div style={header}>
                 Risk parameters
@@ -79,7 +75,7 @@ const StrategyBuilder = ({val, onClickChange}) => {
             <Button
                 type = 'submit'
                 name='apply'
-                onClick = {onClickChange}
+                onClick = {applyStrategy}
                 style = {{backgroundColor: APPLY}}
             />
         </div>
@@ -102,6 +98,8 @@ const header = {
     height: '40px',
     backgroundColor: BREESE,
 }
+
+export { StrategyBuilder }
 
 let strategyForm = reduxForm({
     form: 'strategy',

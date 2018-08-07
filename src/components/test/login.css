@@ -1,0 +1,30 @@
+.panel{
+  position: fixed;
+  margin-top: 50px;
+  width: 200px;
+  right: 0;
+  background-color: aqua;
+}
+
+
+.login-enter {
+  max-height: 0;
+  opacity: 0;
+}
+
+.login-enter.login-enter-active {
+  max-height: 250px;
+  opacity: 1;
+  transition: all 800ms;
+}
+
+.login-leave {
+  opacity: 1;
+  max-height: 250px;
+}
+
+.login-leave.login-leave-active {
+  max-height: 0;
+  opacity: 0;
+  transition: all 800ms;
+}
