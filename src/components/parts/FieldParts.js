@@ -3,8 +3,9 @@ import { Field } from 'redux-form'
 
 import * as CONST from "../../constants";
 
+
 // Dropdown list linked directly to store 
-const Select = ({ name, values }) => {
+const Select = ({ name, values, validate }) => {
     const options = () => {
         const res = values.map((opt, i) => {
             return <option key={i} value={opt}>{opt}</option>
@@ -18,6 +19,7 @@ const Select = ({ name, values }) => {
                 name={name} 
                 component='select'
                 style = {dropSelect}
+                validate = {validate}
             >
                 {options()}
             </Field>
@@ -26,7 +28,7 @@ const Select = ({ name, values }) => {
 };
 
 // Input linked directly to store 
-const Input = ({ name, type, placeholder }) => {
+const Input = ({ name, type, placeholder, validate }) => {
     return (
         <div style = {wrapper}>
             <div style = {styleName}>{name}</div>
@@ -36,10 +38,13 @@ const Input = ({ name, type, placeholder }) => {
                 type={type}
                 placeholder={placeholder}
                 style = {input}
+                validate = {validate}
             />
         </div>
     )
 }
+
+
 
 const Button = ({ onClick, style, name }) => {
     return (
@@ -52,7 +57,44 @@ const Button = ({ onClick, style, name }) => {
     )
 }
 
-export { Select, Input, Button };
+
+const Symbol = ({style, name, placeholder, type, validate }) => {
+    return (
+        <div style = {style}>
+            <Field
+                name={name}
+                component='input'
+                type={type}
+                placeholder={placeholder}
+                style = {{ ...style, ...symbolStyle}}
+                validate = {validate}
+            />
+        </div>
+    );
+};
+
+const Interval = ({ name, values, style, validate }) => {
+    const options = () => {
+        const res = values.map((opt, i) => {
+            return <option key={i} value={opt}>{opt}</option>
+        })
+        return res
+    }
+    return (
+        <div style = {wrapper}>
+            <Field 
+                name={name} 
+                component='select'
+                style = {{...dropSelect, ...style}}
+                validate = {validate}
+            >
+                {options()}
+            </Field>
+        </div>
+    )
+};
+
+export { Select, Input, Button, Symbol, Interval };
 
 const common = {...CONST.HEIGHT, ...CONST.TEXT, 
     ...CONST.BACK, ...CONST.BORDER}
@@ -82,4 +124,7 @@ const input = {
     backgroundColor: '#f3f3f3ab',
     width: 100,
     minWidth: 100,
+}
+const symbolStyle = {
+
 }

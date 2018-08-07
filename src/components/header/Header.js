@@ -1,39 +1,57 @@
 import React from 'react';
+import { reduxForm } from 'redux-form'
+import FontAwesome from 'react-fontawesome'
+import TransitionLeftSlide from '../parts/Transitions/TransitionLeftSlide'
 
 import Button from '../parts/Button'
-
+import { Symbol, Interval } from '../parts/FieldParts'
 import { TEXT } from "../../constants";
 import { APPLY, YELLOW } from "../../constants";
+import { initialState } from '../../constants'
+import Login from "./Login";
+import CLoseOnClickOuside from "../parts/CLoseOnClickOuside";
 
-const header = (props) => {
+const header = ({companyName, valuesForQuery, onClickChange, showLogin, toggleLogin,
+                isAuthed, loginRequest}) => {
+                    
     return (
-        <div style = {headerStyle}>
+        
+        <div style = {headerStyle} >
             <div style = {{...logoInstrument}}>
-                {props.companyName ? props.companyName.toUpperCase() : null}
+                {companyName ? companyName.toUpperCase() : null}
             </div>
-            <input
+            <Symbol
+                value={valuesForQuery.symbol}
+                name='symbol'
                 style={inputCompany}
-                onChange={props.onCompanyChange}
                 placeholder='Change instrument'
             />
-            <select 
-                value={props.selectedValue}
-                onChange={props.onChangeInterval}
-                style = {{ ...select}}>
-                <option value='1min'>1min</option>
-                <option value='5min'>5min</option>
-                <option value='15min'>15min</option>
-                <option value='30min'>30min</option>
-                <option value='60min'>60min</option>
-                <option value='day'>day</option>
-                <option value='week'>week</option>
-                <option value='month'>month</option>
-            </select>
+            <Interval
+                values = {['1min','5min','10min','15min','30min','60min', 'day', 'week', 'month']}
+                name = 'interval'
+                style = {select}
+            />
             <Button 
-                onClick = {(e) => props.onClickChange(e)}
+                onClick = {() => onClickChange()}
                 name = 'change'
                 style={{...button}}
             />
+            <Button 
+                onClick = {() => toggleLogin()}
+                name = {<FontAwesome name = "user"/>}
+                style={{...buttonLogin}}
+            />
+            <TransitionLeftSlide
+                condition ={showLogin}
+                component ={
+                <Login
+                    toggleLogin= {() => toggleLogin()}
+                    isAuthed = {isAuthed}
+                    loginRequest = {() => loginRequest()}
+                />
+                }
+            />
+
         </div>
     );
 };
@@ -65,6 +83,7 @@ const inputCompany = {
     ...TEXT,
     border: 'none',
     paddingLeft: '10px',
+    height: '40px',
     backgroundColor: YELLOW,
     flexGrow: 3,
 }
@@ -80,7 +99,18 @@ const button = {
     maxWidth: 150,
     width: '30%', 
     backgroundColor: APPLY,
-
+    flexGrow: 0.5
 }
 
-export default header
+const buttonLogin = {
+    height: '40px',
+    flexGrow: 0.5,
+    width: '50px',
+}
+
+let headerForm = reduxForm({
+    form: 'header',
+    initialState: initialState.form.header.val
+})(header)
+
+export default headerForm

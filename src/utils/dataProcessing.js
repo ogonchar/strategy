@@ -2,7 +2,7 @@
 /* 
   * function fetch data from alphaventage. 
 */
-export function getData(symbol, interval, outputsize, apikey) {
+export function getData({symbol, interval, outputsize, apikey}) {
   
   const LINK = 'https://www.alphavantage.co/query?'
   
@@ -26,15 +26,10 @@ export function getData(symbol, interval, outputsize, apikey) {
   //construct request link based on received parameters
   const link = `${LINK}function=${func}&symbol=${symbol}` +
   `&interval=${interval}&outputsize=${outputsize}&apikey=${apikey}`
-
   
   const promiseData = fetch(link)
-    .then(function(response) {
-      return  response.json()
-    })
-    .then((response) => {
-      return response[timeseries]
-    })
+    .then((response) => (response.json()))
+    .then((response) => {return response[timeseries]})
     .then((data) => {
       let values = Object.values(data)
       let keys = Object.keys(data)

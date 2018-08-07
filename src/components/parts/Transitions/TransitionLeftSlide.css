@@ -1,0 +1,21 @@
+.transition-enter {
+  transform: translate(400px);
+  opacity: 0;
+}
+  
+.transition-enter.transition-enter-active {
+  transform: translate(0px);
+  transition: all 400ms;
+  opacity: 1;
+}
+
+.transition-leave {
+  transform: translate(0px);
+  opacity: 1;
+}
+
+.transition-leave.transition-leave-active {
+  transform: translate(400px);
+  transition: all 400ms;
+  opacity: 0;
+}

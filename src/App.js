@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react';
+import { Route } from 'react-router' 
+import { BrowserRouter  } from 'react-router-dom'
 
 import Main from './components/Main'
-
-const increment = (num) => num + 1
-
 
 class App extends PureComponent {
   render() {
     return (
       <div>
-        <Main />
+        <BrowserRouter >
+           <Route exact path="/" component={Main}/>
+        </BrowserRouter>
       </div>
     )
   }
 }
 
-export { App, increment };
+export { App };

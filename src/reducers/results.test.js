@@ -1,8 +1,8 @@
-import reducer from "./results";
+import {results} from "./reducers";
 
 describe('results', ()=> {
     it('should match', () => {
-        const results  = {
+        const res  = {
             results: {
                 result: 1885.75,
                 deals: [
@@ -32,6 +32,6 @@ describe('results', ()=> {
                 profit: '0'
               }
         }
-        expect(reducer({}, results).result).toEqual(expectedState.result)
+        expect(results({}, res).result).toEqual(expectedState.result)
     })
 })

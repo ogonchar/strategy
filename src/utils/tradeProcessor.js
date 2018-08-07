@@ -1,9 +1,9 @@
 import { getRSI, getEMA } from './indicators'
-
+import { dealResult } from "./dealResult";
 
 export function tradeProcessor(data, { indicator, capital = 2000, valueCondition, qty,
     risk, condition, stopLoss, passAfterLoss, exitCause, exitAmount, rsiStep, emaStep}){
-
+        
     let pose = {
         price: '',
         qty: 0,
@@ -17,6 +17,7 @@ export function tradeProcessor(data, { indicator, capital = 2000, valueCondition
     let lessOrMore = false
     let buy 
     let sell
+    let result
 
     const round = (num) => {
        return Math.round(num*100)/100
@@ -41,50 +42,25 @@ export function tradeProcessor(data, { indicator, capital = 2000, valueCondition
                 // Conditions for trade exacution are done?
                 if (d.close < valueCondition && condition ==='<') lessOrMore = true
                 if (d.close > valueCondition && condition ==='>') lessOrMore = true
-                
+            
                 // If there are no pose and conitions are done and losses are ok 
                 if (pose.qty === 0 && lessOrMore && willTrade) {
 
                     //make deal with received qty of contract 
                     pose.qty = qty
                     //for simplicity take middle price of the day
-                    pose.price = (data[i].high + data[i].low) / 2
+                    pose.price = round((data[i].high + data[i].low) / 2)
                     pose.direction = 'buy'
                     deals.push(`On ${i} buy with price : ${pose.price}`)
-                    for (let y = i; y < data.length; y++) {
-                        // If robot in pose and price hit risk 
-                        if (pose.qty !== 0 && data[y].low < pose.price 
-                                * (100 - risk) / 100) {
-                            //robot get losses 
-                            loss += round(pose.price * pose.qty * 0.02)
-                            pose.qty = 0
-                            //set to pass some intervals after loss
-                            loseI = i + passAfterLoss
-                            deals.push(`On ${i} close with loss : ${loss}`)
-                            break
-                        }
-                    }
+                    
+                    let dr = dealResult(data.slice(i), pose, risk, loss, passAfterLoss, deals, exitCause, 
+                        exitAmount, buy, sell, profit, i) 
+                    loss = round(dr.loss)
+                    profit = round(dr.profit)
                 }
-                //Calculating current amount of profit
-                let profitBuy = ((data[i].high + data[i].low) / 2 - pose.price) * pose.qty 
-                let profitSell = (pose.price - (data[i].high + data[i].low) / 2) * pose.qty
-        
-                // chacking  if profit is enough for exit
-                let profitEnoughBuy = (exitCause === '%' && profitBuy > exitAmount && buy)
-                let profitEnoughSell =  (exitCause === '%' && profitSell > exitAmount && sell)
-        
-                if (pose.qty !== 0 && (profitEnoughBuy || profitEnoughSell)) {
-                    profitEnoughBuy ? profit += profitBuy : profit += profitSell
-                    pose.qty = 0
-                    deals.push(`On ${i} close pose on price ${data[i].close} with profit : ${round(profit)}`)
-                }
+                result = capital + profit - loss
             })
-
-            return { result: (capital + round(profit) - round(loss)),
-                                deals,
-                                loss: `${round(loss)}`,
-                                profit: `${round(profit)}`
-                                }
+            return { result, deals, loss, profit }
             
         /* 
             *
